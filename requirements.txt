@@ -1,0 +1,11 @@
+python-telegram-bot==20.7
+pytesseract==0.3.10
+easyocr==1.7.1
+paddleocr>=2.7.0
+paddlepaddle-gpu>=3.0.0
+Pillow>=10.0.0
+python-dotenv==1.0.0
+opencv-python-headless>=4.8.0
+scikit-image>=0.22.0
+numpy>=1.24.0
+requests>=2.31.0
