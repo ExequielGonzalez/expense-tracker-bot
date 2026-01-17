@@ -106,7 +106,7 @@ def validate_result(result, filename):
     return True
 
 
-def run_integration_tests(quick=False, verbose=False):
+def run_integration_tests(quick: bool = False, verbose: bool = False) -> int:
     """
     Run integration tests against all receipt images.
     
@@ -117,7 +117,7 @@ def run_integration_tests(quick=False, verbose=False):
     print("\n" + "="*100)
     print("RECEIPT ANALYZER V3 - INTEGRATION TESTS (Ollama Vision LLM)")
     print("="*100)
-    
+
     # Initialize analyzer
     print("\n[INFO] Initializing ReceiptAnalyzerV3...")
     analyzer = ReceiptAnalyzerV3()
@@ -190,12 +190,12 @@ def run_integration_tests(quick=False, verbose=False):
             
             # Check against expected values (warnings only, not failures)
             if expected:
-                if 'expected_amount_range' in expected:
+                if result and 'expected_amount_range' in expected:
                     min_amt, max_amt = expected['expected_amount_range']
                     if not (min_amt <= result['amount'] <= max_amt):
                         print(f"  ⚠️  Amount {result['amount']} outside expected range ({min_amt}-{max_amt})")
-                
-                if 'expected_category' in expected:
+
+                if result and 'expected_category' in expected:
                     if result['category'] != expected['expected_category']:
                         print(f"  ⚠️  Category '{result['category']}' differs from expected '{expected['expected_category']}'")
             
@@ -233,7 +233,7 @@ def run_integration_tests(quick=False, verbose=False):
         return 1
 
 
-def run_unit_tests():
+def run_unit_tests() -> int:
     """
     Run unit tests for JSON parsing and validation (no Ollama required).
     """

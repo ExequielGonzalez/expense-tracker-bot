@@ -77,9 +77,9 @@ class ReceiptAnalyzerV3:
     """
     
     def __init__(self, 
-                 base_url: str = None,
-                 model: str = None,
-                 timeout: int = None,
+                 base_url: str | None = None,
+                 model: str | None = None,
+                 timeout: int | None = None,
                  keep_alive: int = 0):
         """
         Initialize the analyzer.
@@ -109,7 +109,7 @@ class ReceiptAnalyzerV3:
         with open(image_path, 'rb') as f:
             return base64.b64encode(f.read()).decode('utf-8')
     
-    def _call_ollama(self, image_base64: str) -> Dict[str, Any]:
+    def _call_ollama(self, image_base64: str) -> str:
         """
         Call Ollama /api/chat endpoint with the image.
         
@@ -157,16 +157,16 @@ class ReceiptAnalyzerV3:
             timeout=self.timeout
         )
         response.raise_for_status()
-        
+
         result = response.json()
-        
+
         # Extract the assistant's message content
         if 'message' not in result or 'content' not in result['message']:
             raise ValueError(f"Unexpected Ollama response structure: {result}")
-        
+
         content = result['message']['content'].strip()
         print(f"[DEBUG] Raw model response: {content[:500]}...")
-        
+
         return content
     
     def _parse_json_response(self, content: str) -> Dict[str, Any]:
@@ -323,10 +323,11 @@ class ReceiptAnalyzerV3:
         
         # Call Ollama
         raw_response = self._call_ollama(image_base64)
-        
+
         # Parse JSON response
         print(f"[DEBUG] Parsing JSON response...")
-        parsed_data = self._parse_json_response(raw_response)
+        parsed_data = self._parse_json_response(str(raw_response))
+
         print(f"[DEBUG] Parsed data: {parsed_data}")
         
         # Validate and normalize

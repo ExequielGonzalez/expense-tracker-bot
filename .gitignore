@@ -11,6 +11,7 @@ ENV/
 dist/
 build/
 .env
+.envrc
 *.jpg
 *.png
 expenses.csv
